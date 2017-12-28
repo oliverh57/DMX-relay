@@ -1,10 +1,6 @@
 #include <EEPROM.h>
 #include <DMXSerial2.h>
 
-// uncomment this line for enabling information on a LEONARD board. 
-// #define SERIAL_DEBUG
-
-// Constants for demo program
 
 const int relay_0 = 9;  //Relay control pins
 const int relay_1 = 6; 
@@ -18,19 +14,6 @@ const int cont = 5; //control pin for tranciver
 
 #define DefaultLevel   LOW //default when no DMX 
 
-// define the RGB output color 
-void rgb(byte r, byte g, byte b)
-{
-  /*if(r > 100){
-    digitalWrite(RedPin,   HIGH);
-  }else{
-    digitalWrite(RedPin,   LOW);
-  }
-  
-  analogWrite(RedPin,   r);
-  analogWrite(GreenPin, g);
-  analogWrite(BluePin,  b);*/
-} // rgb()
 
 // see DMXSerial2.h for the definition of the fields of this structure
 const uint16_t my_pids[] = {E120_DEVICE_HOURS, E120_LAMP_HOURS};
@@ -81,16 +64,7 @@ void loop() {
   unsigned long lastPacket = DMXSerial2.noDataSince();
 
   if (DMXSerial2.isIdentifyMode()) {
-    // RDM Command for Indentification was sent.
-    // Blink the device.
-    unsigned long now = millis();
-    if (now % 1000 < 500) {
-      rgb(200, 200, 200);
-    } else {
-      rgb(0, 0, 0);
-    } // if
-    
-  } else if (lastPacket < 30000) {
+    if (lastPacket < 30000) {
     
     if(DMXSerial2.readRelative(0) >= 127){
       digitalWrite(relay_0, HIGH);
